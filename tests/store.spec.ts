@@ -49,4 +49,31 @@ test.describe('Store API', () => {
     const getResponse = await request.get(`/v2/store/order/${orderId}`);
     expect(getResponse.status()).toBe(404);
   });
+
+  test('should return 400 for placing an invalid order', async ({ request }) => {
+    const response = await request.post('/v2/store/order', {
+      data: {
+        // Invalid data without required fields
+      },
+    });
+    expect(response.status()).toBe(400);
+  });
+
+  test('should return 404 for a non-existent order', async ({ request }) => {
+    const nonExistentOrderId = 99999999;
+    const response = await request.get(`/v2/store/order/${nonExistentOrderId}`);
+    expect(response.status()).toBe(404);
+  });
+
+  test('should return 400 for an invalid order ID', async ({ request }) => {
+    const invalidOrderId = 'invalid-id';
+    const response = await request.get(`/v2/store/order/${invalidOrderId}`);
+    expect(response.status()).toBe(400);
+  });
+
+  test('should return 404 for deleting a non-existent order', async ({ request }) => {
+    const nonExistentOrderId = 99999999;
+    const response = await request.delete(`/v2/store/order/${nonExistentOrderId}`);
+    expect(response.status()).toBe(404);
+  });
 });

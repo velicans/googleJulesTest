@@ -112,4 +112,34 @@ test.describe('User API', () => {
     const getResponse = await request.get(`/v2/user/user21`);
     expect(getResponse.status()).toBe(200);
   });
+
+  test('should return 404 for a non-existent user', async ({ request }) => {
+    const nonExistentUsername = 'nonexistentuser';
+    const response = await request.get(`/v2/user/${nonExistentUsername}`);
+    expect(response.status()).toBe(404);
+  });
+
+  test('should return 400 for invalid login', async ({ request }) => {
+    const response = await request.get('/v2/user/login', {
+      params: {
+        username: USERNAME,
+        password: 'wrongpassword',
+      },
+    });
+    expect(response.status()).toBe(400);
+  });
+
+  test('should return 404 when updating a non-existent user', async ({ request }) => {
+    const nonExistentUsername = 'nonexistentuser';
+    const response = await request.put(`/v2/user/${nonExistentUsername}`, {
+      data: USER_DATA,
+    });
+    expect(response.status()).toBe(404);
+  });
+
+  test('should return 404 when deleting a non-existent user', async ({ request }) => {
+    const nonExistentUsername = 'nonexistentuser';
+    const response = await request.delete(`/v2/user/${nonExistentUsername}`);
+    expect(response.status()).toBe(404);
+  });
 });
