@@ -40,13 +40,34 @@ To get started with this project, follow these steps:
 
 ## Running the Tests
 
-To run the entire test suite, use the following command:
+To run the entire test suite against the default environment, use the following command:
 
 ```bash
 npm test
 ```
 
 This command will execute all the test files located in the `tests/` directory.
+
+### Running Tests Against Different Environments
+
+This project is configured with three environments: `dev`, `test`, and `preprod`. You can run the tests against a specific environment using the `--project` flag.
+
+For example, to run the tests against the **dev** environment, use the following command:
+```bash
+npm test -- --project=dev
+```
+
+Similarly, to run against other environments, you can use:
+
+-   **Test Environment:**
+    ```bash
+    npm test -- --project=test
+    ```
+-   **Pre-production Environment:**
+    ```bash
+    npm test -- --project=preprod
+    ```
+If you do not specify a project, the tests will run against the default `baseURL` configured in `playwright.config.js`.
 
 ## Project Structure
 
